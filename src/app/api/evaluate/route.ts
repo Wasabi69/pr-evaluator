@@ -1,3 +1,7 @@
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { EvaluationSchema } from "@/lib/schema";
@@ -65,7 +69,11 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(validated.data);
-  } catch {
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+} catch (err: any) {
+    return NextResponse.json(
+      { error: "Server error", detail: err?.message || String(err) },
+      { status: 500 }
+    );
   }
+  
 }
